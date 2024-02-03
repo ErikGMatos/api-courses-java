@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.br.erikmatos.courses.exceptions.CourseNotFoundException;
 import com.br.erikmatos.courses.modules.course.dto.UpdateCourseRequestDTO;
-import com.br.erikmatos.courses.modules.course.dto.UpdateCourseResponseDTO;
 import com.br.erikmatos.courses.modules.course.entities.CourseEntity;
 import com.br.erikmatos.courses.modules.course.repositories.CourseRepository;
 
@@ -19,21 +18,14 @@ public class UpdateCourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-    public UpdateCourseResponseDTO execute(@NonNull UUID id, UpdateCourseRequestDTO updateCourseRequestDTO) {
+    public CourseEntity execute(@NonNull UUID id, UpdateCourseRequestDTO updateCourseRequestDTO) {
         CourseEntity existingCourse = courseRepository.findById(id)
                 .orElseThrow(CourseNotFoundException::new);
 
         existingCourse.setName(updateCourseRequestDTO.name());
         existingCourse.setCategory(updateCourseRequestDTO.category());
-        existingCourse.setActive(updateCourseRequestDTO.Active());
 
-        var savedCourse = courseRepository.save(existingCourse);
-        return UpdateCourseResponseDTO.builder()
-                .id(savedCourse.getId())
-                .Active(savedCourse.getActive())
-                .category(savedCourse.getCategory())
-                .name(savedCourse.getName())
-                .build();
+        return courseRepository.save(existingCourse);
     }
 
 }
