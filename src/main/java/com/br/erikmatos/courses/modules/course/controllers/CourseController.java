@@ -26,13 +26,12 @@ public class CourseController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createCourse(@RequestBody CourseEntity courseEntity) {
+    public ResponseEntity<Object> createCourse(@Valid @RequestBody CourseEntity courseEntity) {
         try {
-            return ResponseEntity.ok().body("Esse é o create");
+            var createdCourse = this.createCourseService.execute(courseEntity);
+            return ResponseEntity.ok().body(createdCourse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
-
 }
