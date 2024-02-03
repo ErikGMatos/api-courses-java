@@ -1,10 +1,10 @@
 package com.br.erikmatos.courses.modules.course.controllers;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.erikmatos.courses.modules.course.dto.UpdateCourseRequestDTO;
 import com.br.erikmatos.courses.modules.course.entities.CourseEntity;
 import com.br.erikmatos.courses.modules.course.services.CreateCourseService;
+import com.br.erikmatos.courses.modules.course.services.DeleteCourseService;
 import com.br.erikmatos.courses.modules.course.services.ListCoursesService;
 import com.br.erikmatos.courses.modules.course.services.UpdateCourseService;
 
@@ -33,6 +34,9 @@ public class CourseController {
 
     @Autowired
     private UpdateCourseService updateCourseService;
+
+    @Autowired
+    private DeleteCourseService deleteCourseService;
 
     @GetMapping("/all")
     public ResponseEntity<Object> listAllCourses() {
@@ -60,6 +64,16 @@ public class CourseController {
         try {
             var createdCourse = this.updateCourseService.execute(id, updateCourseRequestDTO);
             return ResponseEntity.ok().body(createdCourse);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> deleteCourse(@Valid @PathVariable UUID id) {
+        try {
+            this.deleteCourseService.execute(id);
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
