@@ -15,8 +15,6 @@ public class ListCoursesService {
     private CourseRepository companyRepository;
 
     public List<CourseEntity> execute() {
-        var list = this.companyRepository.findAll();
-
-        return list;
+        return this.companyRepository.findAll();
     }
 }

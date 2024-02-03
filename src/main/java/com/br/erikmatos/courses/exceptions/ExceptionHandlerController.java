@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @ControllerAdvice
 public class ExceptionHandlerController {
@@ -33,6 +34,18 @@ public class ExceptionHandlerController {
         });
 
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorMessageDTO> handleMethodArgumentTypeMismatchException(
+            MethodArgumentTypeMismatchException e) {
+
+        String paramName = e.getName();
+        String requiredType = e.getRequiredType() != null ? e.getRequiredType().getSimpleName() : "desconhecido";
+        String message = "Parâmetro '" + paramName + "' deve ser do tipo " + requiredType;
+        ErrorMessageDTO error = new ErrorMessageDTO(message, paramName);
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }
