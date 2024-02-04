@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service;
 import com.br.erikmatos.courses.exceptions.CourseNotFoundException;
 import com.br.erikmatos.courses.modules.course.repositories.CourseRepository;
 
-import lombok.NonNull;
-
 @Service
 public class DeleteCourseService {
 
     @Autowired
     private CourseRepository courseRepository;
 
-    public void execute(@NonNull UUID id) {
+    public void execute(UUID id) {
         if (this.courseRepository.existsById(id)) {
             this.courseRepository.deleteById(id);
         } else {

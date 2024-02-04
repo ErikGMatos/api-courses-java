@@ -6,15 +6,17 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "course")
 @Data
@@ -32,7 +34,8 @@ public class CourseEntity {
     @NotBlank(message = "O campo 'category' é obrigatório")
     private String category;
 
-    private String Active;
+    @Enumerated(EnumType.STRING)
+    private StatusEnum active;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
