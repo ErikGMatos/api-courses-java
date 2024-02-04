@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.br.erikmatos.courses.modules.course.entities.CourseEntity;
 
 public interface CourseRepository extends JpaRepository<CourseEntity, UUID> {
+    boolean existsByName(String name);
 }

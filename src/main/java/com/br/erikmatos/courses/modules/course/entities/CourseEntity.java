@@ -34,8 +34,9 @@ public class CourseEntity {
     @NotBlank(message = "O campo 'category' é obrigatório")
     private String category;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private StatusEnum active;
+    private StatusEnum active = StatusEnum.INACTIVE;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

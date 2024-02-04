@@ -18,6 +18,7 @@ import com.br.erikmatos.courses.modules.course.dto.PatchCourseActiveRequestDTO;
 import com.br.erikmatos.courses.modules.course.dto.UpdateCourseRequestDTO;
 import com.br.erikmatos.courses.modules.course.entities.CourseEntity;
 import com.br.erikmatos.courses.modules.course.services.CreateCourseService;
+import com.br.erikmatos.courses.modules.course.services.DeleteAllCourseService;
 import com.br.erikmatos.courses.modules.course.services.DeleteCourseService;
 import com.br.erikmatos.courses.modules.course.services.ListCoursesService;
 import com.br.erikmatos.courses.modules.course.services.PatchCourseService;
@@ -43,6 +44,9 @@ public class CourseController {
 
     @Autowired
     private PatchCourseService patchCourseService;
+
+    @Autowired
+    private DeleteAllCourseService deleteAllCourseService;
 
     @GetMapping("/cursos")
     public ResponseEntity<Object> listAllCourses() {
@@ -79,6 +83,16 @@ public class CourseController {
     public ResponseEntity<Object> deleteCourse(@PathVariable UUID id) {
         try {
             this.deleteCourseService.execute(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/cursos/todos")
+    public ResponseEntity<Object> deleteAllCourse() {
+        try {
+            this.deleteAllCourseService.execute();
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

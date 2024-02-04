@@ -6,6 +6,5 @@ import lombok.Data;
 
 @Data
 public class PatchCourseActiveRequestDTO {
-
     private StatusEnum active;
 }
